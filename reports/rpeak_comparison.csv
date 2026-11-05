@@ -1,0 +1,5 @@
+method,Se,PPV,F1
+PanTompkins (ours),0.9337,0.9964,0.964
+neurokit2,0.9937,0.995,0.9943
+nk2 pantompkins1985,0.9837,0.9816,0.9826
+"PanTompkins v2 (ours, median thr)",0.9847,0.9896,0.9872
