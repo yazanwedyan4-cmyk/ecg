@@ -56,3 +56,14 @@ S recall is high (0.78-0.85) but precision is low, and S is concentrated in reco
 ## Honest notes
 - The 15-feature set was selected by grouped CV on DS1. The choice of RF as the reference model was made after seeing DS2 results, so INCART is the first evaluation on which no decision was taken.
 - Code for the CNN and INCART experiments is not yet in this repository.
+
+## Threshold and referral experiments (RF, 15 features, classes N, S, V, F)
+- Thresholds were chosen on out-of-fold DS1 probabilities (tV = 0.21 for V recall >= 0.95, tS = 0.40 for S F1), then measured once on DS2 and INCART (`reports/thresholds_results.csv`).
+- The V threshold cuts missed V beats from 5.4% to 1.2% on DS2 (INCART: 8.1% to 3.6%), at the cost of V precision (0.93 to 0.66 on DS2) and more false alarms on N (3.0% to 6.1%). The S threshold did not help and is not used.
+- Referral of low-confidence N beats did not help: with budgets of 2% and 5% no beats were referred, and at 10% silent V misses fell only from 0.78% to 0.68% on DS2 while about 1.8% of N beats were referred (`reports/abstain_results.csv`). Missed V beats seem to be confident errors concentrated in a few records (62 and 31 on INCART). This is a hypothesis, not tested.
+
+## Further negative result: rhythm context and P-wave features
+Nine causal rhythm-context features and a simple P-wave detector did not improve patient-grouped CV on DS1 (S and V F1 fell by 0.02 to 0.11 across two seeds), so they were not evaluated on INCART or DS2 (`reports/ctx_pwave_cv_ds1.csv`). The detector found a P wave in 89.5% of beats, which suggests it picks up noise; a full delineation was not tried.
+
+## Scripts
+`src/cnn1d.py` (1D-CNN, with and without augmentation), `src/incart_eval.py` (INCART pipeline and external evaluation), `src/thresholds.py` (threshold selection and referral test), `src/ctx_pwave.py` (rhythm-context and P-wave features). These were consolidated from the notebook cells that produced the results above and have not been re-run as modules.
